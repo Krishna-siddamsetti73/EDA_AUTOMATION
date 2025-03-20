@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDA Analyzer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="my.css">
+</head>
+<body>
+    <div class="container">
+        <h1>EDA Analyzer</h1>
+       
+        <input type="file" id="csvFile" accept=".csv">
+        <button type="button" onclick="uploadFile(event)" id ="uploadBtn">Upload & Analyze</button>
+        <button type="button" onclick="report()" id ="report">get report</button>
+        <button type="button" onclick="resetUploads()" id ="reset">reset</button>
+        <div class="container mt-4">
+            <div class="row mt-2">
+                <div class="col 6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Summary Statistics</h5>
+                            <pre id="summaryStats"></pre>
+                            <p id ="sm"></p>
+                        </div></div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title"> missingValues</h5>
+                            <pre id="missingValues"></pre>
+                            <h5>columns</h5>
+                            <pre id="columns"></pre>
+                            <!-- <h5>data info</h5>
+                            <pre id="info"></pre> -->
+                            <h5>Data Shape</h5>
+                            <pre id="shape"></pre>
+                        </div></div>
+                </div>
+                
+                
+            </div>
+             <div class="row mt-2">
+               <!-- <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Data Type Selection</h5>
+                            <select id="datatye" class="form-select">
+                                <option value="dtype">Select dtype</option>
+                                <option value="number">number</option>
+                                <option value="object">object</option>
+                            </select>
+                        </div>
+                    </div>
+                </div> -->
+        
+                <div class="col-md-5">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Column 1 Selection</h5>
+                            <select id="selectc1" class="form-select">
+                                <option value="column1">Select column1</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+        
+                <div class="col-md-5">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Column 2 Selection</h5>
+                            <select id="selectc2" class="form-select">
+                                <option value="column2">Select column2</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                   
+                <div class = "button"> 
+                    <button onclick="EDA()">EDA</button>
+                </div>
+                </div>
+            </div>
+        
+            <!-- Graph Container -->
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Histogram</h5>
+                            <div id="hist" class="graph-container">
+                                <img id="histogramImg" src="" alt="Histogram will appear here" class="img-fluid">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class ="col-md-4">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Bargraph</h5>
+                            <div id="bar" class="graph-container">
+                                <img id="bargraphImg" src="" alt="Bargraph will appear here" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class ="col-md-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">piechart</h5>
+                        <div id="pie" class="graph-container">
+                            <img id="piechartimg" src="" alt="piechart will appear here" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="row mt-2"><div class="col-md-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Heatmap</h5>
+                    <div id="heat" class="graph-container">
+                        <img id="heatmapImg" src="" alt="Heatmap will appear here" class="img-fluid">
+                    </div>
+        </div></div></div>
+
+<div class="col-md-6">
+    <div class="card">
+        <div class="card-body text-center">
+            <h5 class="card-title">pairplot</h5>
+            <div id="pairplot" class="graph-container">
+                <img id="pairplotImg" src="" alt="pairplot will appear here" class="img-fluid">
+            </div>
+</div></div></div></div>
+<div class="row mt-2">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5 class="card-title">Violin Plot</h5>
+                <div id="violinplot" class="graph-container">
+                    <img id="violinplotImg" src="" alt="Violin plot will appear here" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5 class="card-title">Swarm Plot</h5>
+                <div id="swarmplot" class="graph-container">
+                    <img id="swarmplotImg" src="" alt="Swarm plot will appear here" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5 class="card-title">Box Plot</h5>
+                <div id="boxplot" class="graph-container">
+                    <img id="boxplotImg" src="" alt="Box plot will appear here" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+    <script src="my.js"></script>
+</body>
+</html>
